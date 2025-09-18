@@ -11,6 +11,8 @@ import { globalStorage } from "./models/GlobalStorage";
 import authRouter from "./routes/auth";
 import userRouter from "./routes/user";
 import { subscribeToNotification } from "./controllers/subscription.controllers";
+import { validateJwt } from "./middlewares";
+import chatRouter from "./routes/chat/user.chat";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -47,10 +49,9 @@ app.get("/api/health", (req: Request, res: Response) => {
 
 // Auth routes
 app.use("/api/auth", authRouter);
-app.use("/api/user", userRouter);
+app.use("/api/user", validateJwt, userRouter);
 // Aubsctibe to notification
-app.post("/chat/subscribe", subscribeToNotification);
-
+app.use("/chat", validateJwt, chatRouter);
 // Start server
 server.listen(PORT, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);

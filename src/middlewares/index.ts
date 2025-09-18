@@ -13,9 +13,11 @@ export const validateJwt = async (req: RequestExtended, res: Response, next: any
       return;
     }
     const verifyResult = verifyJWT<TVerifiedData>(token);
+    console.log("🚀 ~ validateJwt ~ verifyResult:", verifyResult);
     if (verifyResult.valid) {
       req.userVerifiedData = verifyResult.payload as TVerifiedData;
       next();
+      return;
     }
     console.log("🚀 ~ validateJwt ~ token:", token);
     next();
