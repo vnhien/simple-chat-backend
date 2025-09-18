@@ -16,8 +16,8 @@ env:
   # github.repository as <account>/<repo>
   # IMAGE_NAME: ${{ github.repository }}
   IMAGE_NAME: vnhien1999/astar-devops-newbie
-  DEPLOY_SERVER: 178.128.217.190
-  DEPLOY_SERVER_USER: root
+  DEPLOY_SERVER: 34.61.232.7
+  DEPLOY_SERVER_USER: vnhien1999
   DOCKER_BIND_PORT: 3003
   DOCKER_PORT: 3003
   CONTAINER_NAME: simple-chat-backend
