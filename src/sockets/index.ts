@@ -15,7 +15,7 @@ export function initSocketServices(server: http.Server) {
   const io = new Server(server, {
     path: "/app-socket",
     cors: {
-      origin: ["http://localhost:3000"],
+      origin: ["http://localhost:3000", "https://chat-hehe.vercel.app", "chat-hehe.vercel.app"],
     },
     connectionStateRecovery: {
       // the backup duration of the sessions and the packets
