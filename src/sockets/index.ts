@@ -3,6 +3,8 @@ import {} from "node:https";
 import { Server } from "socket.io";
 import { initChatSockets } from "./chat.sockets";
 import webpush from "web-push";
+import dns from "dns";
+dns.setDefaultResultOrder("ipv4first");
 
 //INIT WEBPUSH
 webpush.setVapidDetails(
