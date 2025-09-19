@@ -44,15 +44,19 @@ export async function initSocketServices(
         return;
       }
     };
-    const socketId = globalStorage.connected[msg.to] || "";
-    console.log(
-      "🚀 ~ initSocketServices ~ globalStorage.status[msg.to]:",
-      globalStorage.status[msg.to]
-    );
-    if (globalStorage.status[msg.to] === "online") {
-      io.to(socketId).emit("chat:private", msg);
-    } else {
-      sendNotiMessage();
+    try {
+      const socketId = globalStorage.connected[msg.to] || "";
+      console.log(
+        "🚀 ~ initSocketServices ~ globalStorage.status[msg.to]:",
+        globalStorage.status[msg.to]
+      );
+      if (globalStorage.status[msg.to] === "online") {
+        io.to(socketId).emit("chat:private", msg);
+      } else {
+        sendNotiMessage();
+      }
+    } catch (error) {
+      console.log("🚀 ~ initSocketServices ~ error:", error);
     }
   });
 }
