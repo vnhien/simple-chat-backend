@@ -33,12 +33,16 @@ export async function initSocketServices(
     const sendNotiMessage = async () => {
       const cachedSub = subObj[msg.to];
       if (cachedSub) {
-        sendNotification(cachedSub, JSON.stringify(msg));
+        await sendNotification(cachedSub, JSON.stringify(msg), {
+          timeout: 3000,
+        });
         return;
       } else {
         const dbSub = await SubScriptionModel.findOne({ userId: msg.to });
         if (dbSub) {
-          sendNotification(dbSub.subscription as PushSubscription, JSON.stringify(msg));
+          await sendNotification(dbSub.subscription as PushSubscription, JSON.stringify(msg), {
+            timeout: 3000,
+          });
           subObj[msg.to] = dbSub.subscription as PushSubscription;
         }
         return;
@@ -46,10 +50,6 @@ export async function initSocketServices(
     };
     try {
       const socketId = globalStorage.connected[msg.to] || "";
-      console.log(
-        "🚀 ~ initSocketServices ~ globalStorage.status[msg.to]:",
-        globalStorage.status[msg.to]
-      );
       if (globalStorage.status[msg.to] === "online") {
         io.to(socketId).emit("chat:private", msg);
       } else {
