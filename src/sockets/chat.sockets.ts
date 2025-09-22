@@ -29,7 +29,7 @@ export async function initSocketServices(
   io: Server,
   subObj: MemoryCacheSubscription
 ) {
-  socket.on("chat:private", (msg: TChatPrivate) => {
+  socket.on("chat:private", async (msg: TChatPrivate) => {
     const sendNotiMessage = async () => {
       const cachedSub = subObj[msg.to];
       if (cachedSub) {
@@ -53,10 +53,10 @@ export async function initSocketServices(
       if (globalStorage.status[msg.to] === "online") {
         io.to(socketId).emit("chat:private", msg);
       } else {
-        sendNotiMessage();
+        await sendNotiMessage();
       }
     } catch (error) {
-      console.log("🚀 ~ initSocketServices ~ error:", error);
+      console.log("🚀 ~ chat:private ~ error:", error);
     }
   });
 }
