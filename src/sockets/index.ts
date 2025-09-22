@@ -1,10 +1,10 @@
 import http from "node:http";
 import {} from "node:https";
 import { Server } from "socket.io";
+import dns from "dns";
 dns.setDefaultResultOrder("ipv4first");
 import { initChatSockets } from "./chat.sockets";
 import webpush from "web-push";
-import dns from "dns";
 
 //INIT WEBPUSH
 webpush.setVapidDetails(
