@@ -2,18 +2,22 @@ import { RequestExtended } from "../global.type";
 import { Response, Request } from "express";
 import { User } from "../models/user/user.model";
 import { FriendModel } from "../models/user/friend.user.model";
+import { SubScriptionModel } from "../models/user/subscription.user.model";
 
 export const getUserData = async (req: RequestExtended, res: Response) => {
   try {
-    const { userId } = req.userVerifiedData || {};
+    const { userId, clientId } = req.userVerifiedData || {};
     const userData = await User.findOne({ userId });
     if (!userData) {
       res.status(404).send("User not found");
       return;
     }
+    const subsciption = await SubScriptionModel.findOne({ userId: userId, clientId });
+
     res.status(200).json({
       userId: userData.userId,
       username: userData.username,
+      subscription: subsciption?.subscription || null,
     });
     return;
   } catch (error) {

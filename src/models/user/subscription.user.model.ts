@@ -6,12 +6,14 @@ export type TSubscription = {
   subscription: PushSubscription;
   createdAt: number;
   updatedAt: number;
+  clientId: string;
 };
 
 export const SubScriptionSchema = new Schema<TSubscription>({
   createdAt: { type: Number, default: Date.now() },
   updatedAt: { type: Number, default: Date.now() },
   userId: { type: String, index: true, required: true, unique: true },
+  clientId: { type: String, required: false },
   subscription: { type: Schema.Types.Mixed, required: false },
 });
 

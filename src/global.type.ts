@@ -4,4 +4,4 @@ export interface RequestExtended extends Request {
   userVerifiedData?: TVerifiedData;
 }
 
-export type TVerifiedData = { userId: string };
+export type TVerifiedData = { userId: string; clientId: string };

@@ -4,11 +4,12 @@ import { RequestExtended } from "../global.type";
 
 export const subscribeToNotification = async (req: RequestExtended, res: Response) => {
   const { subscription } = req.body;
-  const { userId } = req.userVerifiedData || {};
+  const { userId, clientId } = req.userVerifiedData || {};
   await SubScriptionModel.updateOne(
     { userId },
     {
       subscription: subscription,
+      clientId,
     },
     {
       upsert: true,

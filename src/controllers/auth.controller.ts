@@ -8,7 +8,7 @@ const JWT_EXPIRES_IN: string = process.env.JWT_EXPIRES_IN || "7d";
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, clientId } = req.body;
 
     // Validate input
     if (!username || !password) {
@@ -39,9 +39,13 @@ export const register = async (req: Request, res: Response) => {
     });
 
     await newUser.save();
-
+    const payload = {
+      userId: newUser.userId,
+      username: newUser.username,
+      clientId,
+    };
     // Generate JWT token
-    const token = jwt.sign({ userId: newUser.userId, username: newUser.username }, JWT_SECRET, {
+    const token = jwt.sign(payload, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN,
     } as jwt.SignOptions);
 
@@ -68,7 +72,7 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, clientId } = req.body;
 
     // Validate input
     if (!username || !password) {
@@ -97,7 +101,8 @@ export const login = async (req: Request, res: Response) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ userId: user.userId, username: user.username }, JWT_SECRET, {
+    const payload = { userId: user.userId, username: user.username, clientId };
+    const token = jwt.sign(payload, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN,
     } as jwt.SignOptions);
 
